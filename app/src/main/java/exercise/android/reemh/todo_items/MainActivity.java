@@ -9,10 +9,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
   public TodoItemsHolder holder = null;
+  EditText editText;
+  FloatingActionButton buttonCreateTodoItem;
+  RecyclerView recyclerView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +31,32 @@ public class MainActivity extends AppCompatActivity {
       holder = new TodoItemsHolderImpl();
     }
 
+    editText = findViewById(R.id.editTextInsertTask);
+    buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
+    recyclerView = findViewById(R.id.recyclerTodoItemsList);
+
+    editText.setText("");
+
+    buttonCreateTodoItem.setOnClickListener(v -> {
+      if (!editText.getText().equals("")){
+        editText.setText("");
+      }
+    });
+
     // TODO: implement the specs as defined below
     //    (find all UI components, hook them up, connect everything you need)
+  }
+
+  @Override
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString("text", editText.getText().toString());
+  }
+
+  @Override
+  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    editText.setText(savedInstanceState.getString("text"));
   }
 }
 
@@ -32,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
 SPECS:
 
-- the screen starts out empty (no items shown, edit-text input should be empty)
+- the screen starts out empty (no items shown, edit-text input should be empty) V
 - every time the user taps the "add TODO item" button:
-    * if the edit-text is empty (no input), nothing happens
+    * if the edit-text is empty (no input), nothing happens V
     * if there is input:
         - a new TodoItem (checkbox not checked) will be created and added to the items list
         - the new TodoItem will be shown as the first item in the Recycler view
