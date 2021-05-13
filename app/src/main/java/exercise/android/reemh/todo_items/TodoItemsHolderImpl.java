@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,5 +48,9 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     if (item != null){
       this.allTodoItems.remove(item);
     }
+  }
+
+  public void loadInstanceState(List<TodoItem> newList){
+    this.allTodoItems = new ArrayList<>(newList);
   }
 }

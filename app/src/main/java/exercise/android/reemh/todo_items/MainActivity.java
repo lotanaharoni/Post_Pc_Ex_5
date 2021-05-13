@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
   EditText editText;
   FloatingActionButton buttonCreateTodoItem;
   RecyclerView recyclerView;
+  //TodoItemsHolder itemsHolder;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     buttonCreateTodoItem.setOnClickListener(v -> {
       if (!editText.getText().equals("")){
+        holder.addNewInProgressItem(editText.getText().toString());
         editText.setText("");
       }
     });
@@ -50,12 +52,14 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
+    outState.putSerializable("TodoItemsHolder", holder);
     outState.putString("text", editText.getText().toString());
   }
 
   @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
+    this.holder.loadInstanceState(((TodoItemsHolder)savedInstanceState.getSerializable("TodoItemsHolder")).getCurrentItems());
     editText.setText(savedInstanceState.getString("text"));
   }
 }
