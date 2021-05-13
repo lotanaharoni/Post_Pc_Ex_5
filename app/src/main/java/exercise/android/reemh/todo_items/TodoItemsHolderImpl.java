@@ -1,21 +1,51 @@
 package exercise.android.reemh.todo_items;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-// TODO: implement!
 public class TodoItemsHolderImpl implements TodoItemsHolder {
-  @Override
-  public List<TodoItem> getCurrentItems() { return null; }
+
+  private List<TodoItem> allTodoItems;
+
+  public TodoItemsHolderImpl(){
+    this.allTodoItems = new ArrayList<>();
+  }
 
   @Override
-  public void addNewInProgressItem(String description) { }
+  public List<TodoItem> getCurrentItems() {
+    return this.allTodoItems; }
 
   @Override
-  public void markItemDone(TodoItem item) { }
+  public void addNewInProgressItem(String description) {
+    TodoItem newItem = new TodoItem(description);
+    this.allTodoItems.add(0, newItem);
+  }
 
   @Override
-  public void markItemInProgress(TodoItem item) {}
+  public void markItemDone(TodoItem item) {
+    for (TodoItem todoItem: this.allTodoItems){
+      if (todoItem == item){
+        todoItem.setCurrentStatus(true);
+      }
+    }
+    Collections.sort(this.allTodoItems);
+  }
 
   @Override
-  public void deleteItem(TodoItem item) { }
+  public void markItemInProgress(TodoItem item) {
+    for (TodoItem todoItem: this.allTodoItems){
+      if (todoItem == item){
+        todoItem.setCurrentStatus(false);
+      }
+    }
+    Collections.sort(this.allTodoItems);
+  }
+
+  @Override
+  public void deleteItem(TodoItem item) {
+    if (item != null){
+      this.allTodoItems.remove(item);
+    }
+  }
 }
