@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     editText = findViewById(R.id.editTextInsertTask);
     buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
     recyclerView = findViewById(R.id.recyclerTodoItemsList);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     adapter = new MyAdapter(this.holder, this);
     recyclerView.setAdapter(adapter);
 

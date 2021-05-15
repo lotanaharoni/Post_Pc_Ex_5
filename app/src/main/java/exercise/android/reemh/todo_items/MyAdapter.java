@@ -44,6 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
             else{
                 myHolder.markItemDone(item);
             }
+            notifyDataSetChanged();
         });
 
         holder.myTextView.setOnClickListener(v -> {
