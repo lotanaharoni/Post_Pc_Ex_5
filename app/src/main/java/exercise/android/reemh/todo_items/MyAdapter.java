@@ -45,6 +45,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
                 myHolder.markItemDone(item);
             }
         });
+
+        holder.myTextView.setOnClickListener(v -> {
+
+        });
     }
 
     @Override

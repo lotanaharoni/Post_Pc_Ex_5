@@ -50,6 +50,16 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     }
   }
 
+  @Override
+  public void setItemDescription(TodoItem oldItem, String newDescription){
+    for (TodoItem todoItem: this.allTodoItems){
+      if (todoItem == oldItem){
+        todoItem.setDescription(newDescription);
+      }
+    }
+    Collections.sort(this.allTodoItems);
+  }
+
   public void loadInstanceState(List<TodoItem> newList){
     this.allTodoItems = new ArrayList<>(newList);
   }

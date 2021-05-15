@@ -25,5 +25,9 @@ public interface TodoItemsHolder extends Serializable {
   /** delete the @param item */
   void deleteItem(TodoItem item);
 
+  /** load the state of the @param item */
   void loadInstanceState(List<TodoItem> newList);
+
+  /** Update description of the @param item */
+  void setItemDescription(TodoItem oldItem, String newDescription);
 }
