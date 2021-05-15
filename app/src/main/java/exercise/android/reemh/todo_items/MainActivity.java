@@ -60,15 +60,3 @@ public class MainActivity extends AppCompatActivity {
     editText.setText(savedInstanceState.getString("text"));
   }
 }
-
-/*
-
-SPECS:
-
-- the "TodoItems" list is shown in the screen
-  * DONE items should show the checkbox as checked, and the description with a strike-through text
-  * IN-PROGRESS items should show the checkbox as not checked, and the description text normal
-- when a screen rotation happens (user flips the screen):
-  * the UI should still show the same list of TodoItems
-  * the edit-text should store the same user-input (don't erase input upon screen change)
-*/
