@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="40dp">
@@ -29,16 +30,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/checkBox" />
 
-    <Button
-        android:id="@+id/todoDeleteItem"
+    <ImageButton
+        android:id="@+id/todoDeleteitem"
         android:layout_width="20dp"
         android:layout_height="30dp"
         android:layout_marginStart="300dp"
         android:background="@color/white"
-        android:text="X"
+        android:contentDescription="DeleteButton"
+        android:src="@drawable/ic_delete_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/description"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_delete_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

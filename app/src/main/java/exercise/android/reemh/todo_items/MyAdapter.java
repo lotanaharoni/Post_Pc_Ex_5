@@ -32,7 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
         holder.myCheckBox.setChecked(item.isDone());
         holder.myTextView.setText(item.getDescription());
 
-        holder.myButton.setOnClickListener(v -> {
+        holder.myDeleteButton.setOnClickListener(v -> {
             myHolder.deleteItem(item);
             notifyDataSetChanged();
         });
@@ -45,10 +45,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
                 myHolder.markItemDone(item);
             }
             notifyDataSetChanged();
-        });
-
-        holder.myTextView.setOnClickListener(v -> {
-
         });
     }
 
