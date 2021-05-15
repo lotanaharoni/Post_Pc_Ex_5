@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
   EditText editText;
   FloatingActionButton buttonCreateTodoItem;
   RecyclerView recyclerView;
-  //TodoItemsHolder itemsHolder;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
