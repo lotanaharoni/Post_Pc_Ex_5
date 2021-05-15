@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
   EditText editText;
   FloatingActionButton buttonCreateTodoItem;
   RecyclerView recyclerView;
+  MyAdapter adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     editText = findViewById(R.id.editTextInsertTask);
     buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
     recyclerView = findViewById(R.id.recyclerTodoItemsList);
+    adapter = new MyAdapter(this.holder, this);
+    recyclerView.setAdapter(adapter);
 
     editText.setText("");
 
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
       if (!editText.getText().equals("")){
         holder.addNewInProgressItem(editText.getText().toString());
         editText.setText("");
+        this.adapter.notifyDataSetChanged();
       }
     });
 
