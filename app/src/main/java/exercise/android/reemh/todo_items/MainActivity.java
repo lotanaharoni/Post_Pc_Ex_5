@@ -53,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
+  protected void onResume(){
+    super.onResume();
+    // todo
+  }
+
+  @Override
+  protected void onDestroy(){
+    super.onDestroy();
+    // todo
+  }
+
+  @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("TodoItemsHolder", holder);
