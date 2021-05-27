@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
   FloatingActionButton buttonCreateTodoItem;
   RecyclerView recyclerView;
   MyAdapter adapter;
+  MyApplication application;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
       holder = new TodoItemsHolderImpl();
     }
 
+    application = new MyApplication(this);
     editText = findViewById(R.id.editTextInsertTask);
     buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
     recyclerView = findViewById(R.id.recyclerTodoItemsList);
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onStop(){
     super.onStop();
+    application.setItems(this.holder.getCurrentItems());
     // todo
   }
 
