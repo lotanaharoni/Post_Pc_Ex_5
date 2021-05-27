@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
       holder = new TodoItemsHolderImpl();
     }
 
-    application = new MyApplication(this);
+    application = new MyApplication();
     editText = findViewById(R.id.editTextInsertTask);
     buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
     recyclerView = findViewById(R.id.recyclerTodoItemsList);

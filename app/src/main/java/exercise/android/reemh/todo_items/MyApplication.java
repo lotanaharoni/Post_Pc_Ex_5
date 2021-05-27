@@ -9,13 +9,11 @@ import java.util.List;
 
 public class MyApplication extends Application {
     Context myContext;
+    TodoItemsHolderImpl itemsStorage;
     List<TodoItem> items;
     SharedPreferences sharedPreferences;
+    private static MyApplication instance = null;
 
-    public MyApplication(Context context){
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.myContext = context;
-    }
 
     public void setItems(List<TodoItem> itemsToSave){
         this.items = itemsToSave;
@@ -24,5 +22,14 @@ public class MyApplication extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
+        instance = this;
+    }
+
+    public static MyApplication getInstance(){
+        return instance;
+    }
+
+    public TodoItemsHolderImpl getItemsStorage(){
+        return this.itemsStorage;
     }
 }
