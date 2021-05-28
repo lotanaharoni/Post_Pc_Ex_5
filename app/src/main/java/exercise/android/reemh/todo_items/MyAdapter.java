@@ -1,6 +1,7 @@
 package exercise.android.reemh.todo_items;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
         holder.myDeleteButton.setOnClickListener(v -> {
             myHolder.deleteItem(item);
             notifyDataSetChanged();
+        });
+
+        holder.myUpdateButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this.context, ItemEditActivity.class);
+            intent.putExtra("clicked_item", item);
+            this.context.startActivity(intent);
         });
 
         holder.myCheckBox.setOnClickListener(v -> {

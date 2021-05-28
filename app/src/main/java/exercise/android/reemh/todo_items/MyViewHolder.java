@@ -13,11 +13,13 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView myTextView;
     CheckBox myCheckBox;
     ImageButton myDeleteButton;
+    ImageButton myUpdateButton;
 
     public MyViewHolder(@NonNull View itemView){
         super(itemView);
         myCheckBox = itemView.findViewById(R.id.checkBox);
         myTextView = itemView.findViewById(R.id.description);
         myDeleteButton = itemView.findViewById(R.id.todoDeleteitem);
+        myUpdateButton = itemView.findViewById(R.id.todoUpdateItem);
     }
 }

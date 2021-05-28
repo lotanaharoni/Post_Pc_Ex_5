@@ -44,4 +44,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_delete_item" />
 
+    <ImageButton
+        android:id="@+id/todoUpdateItem"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="225dp"
+        android:background="@color/white"
+        android:contentDescription="UpdateButton"
+        android:src="@drawable/ic_edit_text_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/description"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_edit_text_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
