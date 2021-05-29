@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class TodoItemsHolderImpl implements TodoItemsHolder {
@@ -95,6 +96,19 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     for (TodoItem todoItem: this.allTodoItems){
       if (todoItem == oldItem){
         todoItem.setDescription(newDescription);
+      }
+    }
+    Collections.sort(this.allTodoItems);
+
+    setSharedPreferences(oldItem);
+    setLiveData();
+  }
+
+  @Override
+  public void setItemModifiedTime(TodoItem oldItem, Date newDate){
+    for (TodoItem todoItem: this.allTodoItems){
+      if (todoItem == oldItem){
+        todoItem.setFinishedTime(newDate);
       }
     }
     Collections.sort(this.allTodoItems);

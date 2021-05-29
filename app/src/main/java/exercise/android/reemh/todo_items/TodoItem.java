@@ -21,20 +21,15 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
         this.isDone = false;
         this.creationTime = new Date();
         this.description = description;
-        this.finishedTime = null;
+        this.finishedTime = new Date();
 
         try {
-            Thread.sleep(8);
+            Thread.sleep(2);
         }
         catch (InterruptedException e){
             e.printStackTrace();
         }
     }
-
-//    public TodoItem(){
-//        this.isDone = false;
-//        this.description = "";
-//    }
 
     public void setFinishedTime(Date newFinishedTimeDate){
         this.finishedTime = newFinishedTimeDate;
@@ -67,12 +62,7 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
     }
 
     public void setCurrentStatus(boolean done) {
-        if (done){
-            this.finishedTime = new Date();
-        }
-        else {
-            this.finishedTime = null;
-        }
+        this.finishedTime = new Date();
         isDone = done;
     }
 
@@ -89,7 +79,7 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
     }
 
     @Override
-    public int compareTo(TodoItem o) { //todo
+    public int compareTo(TodoItem o) {
         if (o != null){
             if (this.isDone && o.isDone){
                 return this.finishedTime.compareTo(o.finishedTime);

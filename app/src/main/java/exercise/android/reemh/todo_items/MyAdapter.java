@@ -61,13 +61,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
         });
 
         holder.myUpdateButton.setOnClickListener(v -> {
-            System.out.println("Hiiiiiiii");
             if (this.onChangeDescription != null){
                 onChangeDescription.onClick(item);
             }
-//            Intent intent = new Intent(this.context, ItemEditActivity.class);
-//            intent.putExtra("clicked_item", item);
-//            this.context.startActivity(intent);
         });
 
         holder.myCheckBox.setOnClickListener(v -> {
@@ -84,17 +80,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
     @Override
     public int getItemCount() {
         return this.myHolder.getCurrentItems().size();
-    }
-
-    public Context getContext(){
-        return this.context;
-    }
-
-    public void deleteTodoItem(int position){
-        TodoItem item = items.get(position);
-        if (this.onDeleteTask != null){
-            onDeleteTask.onClick(item);
-        }
     }
 }
 

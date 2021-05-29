@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     holder.todoItemsLiveData.observe(this, todoItems -> adapter.setData(holder.getCurrentItems()));
 
-   // application = new MyApplication();
     editText = findViewById(R.id.editTextInsertTask);
     buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
     recyclerView = findViewById(R.id.recyclerTodoItemsList);
@@ -39,10 +38,6 @@ public class MainActivity extends AppCompatActivity {
     recyclerView.setAdapter(adapter);
 
     editText.setText("");
-
-//    Intent intent2 = new Intent(this, ItemEditActivity.class);
-//    intent2.putExtra("edit_item", "try");
-//    startActivity(intent2);
 
     buttonCreateTodoItem.setOnClickListener(v -> {
       if (!editText.getText().toString().equals("")){
@@ -62,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
       startActivity(intent);
     };
 
-//    adapter.onChangeDescription = item -> {
-//
-//    };
 
   }
 
