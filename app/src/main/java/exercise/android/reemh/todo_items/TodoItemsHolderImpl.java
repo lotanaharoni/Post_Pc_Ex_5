@@ -1,5 +1,11 @@
 package exercise.android.reemh.todo_items;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,20 +13,44 @@ import java.util.List;
 
 public class TodoItemsHolderImpl implements TodoItemsHolder {
 
+  private final MutableLiveData<List<TodoItem>> todoItemMutableLiveData;
+  public final LiveData<List<TodoItem>> todoItemsLiveData;
   private List<TodoItem> allTodoItems;
+  private final SharedPreferences sp;
 
-  public TodoItemsHolderImpl(){
+
+  public TodoItemsHolderImpl(Context context){
+    this.todoItemMutableLiveData = new MutableLiveData<>();
+    this.todoItemsLiveData = todoItemMutableLiveData;
     this.allTodoItems = new ArrayList<>();
+    this.sp = context.getSharedPreferences("my_db", Context.MODE_PRIVATE);
+
+    for (String key: sp.getAll().keySet()){
+      if (sp.getString(key, null) == null){
+        return;
+      }
+      TodoItem addItem = TodoItem.parseKey(sp.getString(key, null));
+      if (addItem != null){
+        allTodoItems.add(addItem);
+      }
+    }
+    todoItemMutableLiveData.setValue(this.getCurrentItems());
   }
 
   @Override
   public List<TodoItem> getCurrentItems() {
-    return this.allTodoItems; }
+    return new ArrayList<>(this.allTodoItems);
+  }
 
   @Override
   public void addNewInProgressItem(String description) {
     TodoItem newItem = new TodoItem(description);
     this.allTodoItems.add(0, newItem);
+
+    SharedPreferences.Editor editor = sp.edit();
+    editor.putString(newItem.getId(), newItem.getSerialize());
+    editor.apply();
+    todoItemMutableLiveData.setValue(this.getCurrentItems());
   }
 
   @Override
@@ -31,6 +61,11 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
       }
     }
     Collections.sort(this.allTodoItems);
+
+    SharedPreferences.Editor editor = sp.edit();
+    editor.putString(item.getId(), item.getSerialize());
+    editor.apply();
+    todoItemMutableLiveData.setValue(this.getCurrentItems());
   }
 
   @Override
@@ -41,12 +76,22 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
       }
     }
     Collections.sort(this.allTodoItems);
+
+    SharedPreferences.Editor editor = sp.edit();
+    editor.putString(item.getId(), item.getSerialize());
+    editor.apply();
+    todoItemMutableLiveData.setValue(this.getCurrentItems());
   }
 
   @Override
   public void deleteItem(TodoItem item) {
     if (item != null){
       this.allTodoItems.remove(item);
+
+      SharedPreferences.Editor editor = sp.edit();
+      editor.remove(item.getId());
+      editor.apply();
+      todoItemMutableLiveData.setValue(this.getCurrentItems());
     }
   }
 
@@ -58,6 +103,11 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
       }
     }
     Collections.sort(this.allTodoItems);
+
+    SharedPreferences.Editor editor = sp.edit();
+    editor.putString(oldItem.getId(), oldItem.getSerialize());
+    editor.apply();
+    todoItemMutableLiveData.setValue(this.getCurrentItems());
   }
 
   public void loadInstanceState(List<TodoItem> newList){

@@ -7,21 +7,15 @@ import android.preference.PreferenceManager;
 
 import java.util.List;
 
-public class MyApplication extends Application {
-    Context myContext;
-    TodoItemsHolderImpl itemsStorage;
-    List<TodoItem> items;
-    SharedPreferences sharedPreferences;
+public class    MyApplication extends Application {
+
     private static MyApplication instance = null;
-
-
-    public void setItems(List<TodoItem> itemsToSave){
-        this.items = itemsToSave;
-    }
+    TodoItemsHolderImpl itemsStorage;
 
     @Override
     public void onCreate(){
         super.onCreate();
+        itemsStorage = new TodoItemsHolderImpl(this);
         instance = this;
     }
 

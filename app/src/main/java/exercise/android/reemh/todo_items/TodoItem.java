@@ -1,26 +1,33 @@
 package exercise.android.reemh.todo_items;
 
+import android.provider.Telephony;
+
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Date;
+import java.util.UUID;
 
 public class TodoItem implements Serializable, Comparable<TodoItem>{
+    private final String id;
     private boolean isDone;
     private Date creationTime;
     private String description;
     private Date finishedTime;
 
     public TodoItem(String description){
+        this.id = UUID.randomUUID().toString();
         this.isDone = false;
         this.creationTime = new Date();
         this.description = description;
         this.finishedTime = null;
     }
 
-    public TodoItem(){
-        this.isDone = false;
-        this.description = "";
-    }
+//    public TodoItem(){
+//        this.isDone = false;
+//        this.description = "";
+//    }
 
     public void setFinishedTime(Date newFinishedTimeDate){
         this.finishedTime = newFinishedTimeDate;
@@ -101,5 +108,19 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
         TodoItem otherTodoItem = (TodoItem)obj;
         return this.isDone == otherTodoItem.isDone && this.creationTime == otherTodoItem.creationTime &&
                 this.description.equals(otherTodoItem.description) && this.finishedTime == this.finishedTime;
+    }
+
+    public static TodoItem parseKey(String keySerialize){
+        Gson gson = new Gson();
+        return gson.fromJson(keySerialize, TodoItem.class);
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public String getSerialize(){
+        Gson gson = new Gson();
+        return  gson.toJson(this);
     }
 }

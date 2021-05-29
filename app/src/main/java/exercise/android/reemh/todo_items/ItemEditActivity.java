@@ -37,7 +37,7 @@ public class ItemEditActivity extends AppCompatActivity {
             finish();
             return;
         }
-        item = (TodoItem) intent.getSerializableExtra("clicked_item");
+        item = (TodoItem) intent.getSerializableExtra("clicked_item"); //todo? (maybe holder.getItem)
         if (item == null){
             finish();
             return;
@@ -84,12 +84,12 @@ public class ItemEditActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!description.getText().toString().equals("")){
-                    item.setDescription(s.toString());
+                    holder.setItemDescription(item, description.getText().toString());
+                    // update time todo
                 }
                 else {
                   //  Toast.makeText(ItemEditActivity.class, "This is my Toast message!", Toast.LENGTH_LONG).show();
                 }
-                // updateTime
             }
         });
 
@@ -102,6 +102,8 @@ public class ItemEditActivity extends AppCompatActivity {
             }
             // change the date todo
         });
+
+
 
 
 

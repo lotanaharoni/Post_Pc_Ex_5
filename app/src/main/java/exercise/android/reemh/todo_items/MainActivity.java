@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     if (holder == null) {
-      holder = new TodoItemsHolderImpl();
+      holder = new TodoItemsHolderImpl(this);
     }
 
     application = new MyApplication();
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onStop(){
     super.onStop();
-    application.setItems(this.holder.getCurrentItems());
+    //application.setItems(this.holder.getCurrentItems());
     // todo
   }
 
