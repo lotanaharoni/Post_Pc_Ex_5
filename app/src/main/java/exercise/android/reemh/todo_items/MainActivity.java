@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
   FloatingActionButton buttonCreateTodoItem;
   RecyclerView recyclerView;
   MyAdapter adapter;
-  MyApplication application;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     recyclerView = findViewById(R.id.recyclerTodoItemsList);
     recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     recyclerView.setAdapter(adapter);
-
     editText.setText("");
 
     buttonCreateTodoItem.setOnClickListener(v -> {
@@ -56,40 +54,17 @@ public class MainActivity extends AppCompatActivity {
       intent.putExtra("clicked_item", item.getId());
       startActivity(intent);
     };
-
-
-  }
-
-  @Override
-  protected void onStop(){
-    super.onStop();
-    //application.setItems(this.holder.getCurrentItems());
-    // todo
-  }
-
-  @Override
-  protected void onResume(){
-    super.onResume();
-    // todo
-  }
-
-  @Override
-  protected void onDestroy(){
-    super.onDestroy();
-    // todo
   }
 
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-//    outState.putSerializable("TodoItemsHolder", holder);
-//    outState.putString("text", editText.getText().toString());
+    outState.putString("edit_text", editText.getText().toString());
   }
 
   @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
-//    this.holder.loadInstanceState(((TodoItemsHolder)savedInstanceState.getSerializable("TodoItemsHolder")).getCurrentItems());
-//    editText.setText(savedInstanceState.getString("text"));
+    editText.setText(savedInstanceState.getString("edit_text"));
   }
 }

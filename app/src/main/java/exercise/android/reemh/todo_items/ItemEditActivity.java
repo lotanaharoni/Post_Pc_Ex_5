@@ -2,17 +2,14 @@ package exercise.android.reemh.todo_items;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
@@ -27,8 +24,6 @@ public class ItemEditActivity extends AppCompatActivity {
     EditText description;
     CheckBox myCheckBox;
     TodoItem item;
-    String oldDescription;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +34,7 @@ public class ItemEditActivity extends AppCompatActivity {
             holder = MyApplication.getInstance().getItemsStorage();
         }
         Intent intent = getIntent();
-        if (!intent.hasExtra("clicked_item")){ //todo
+        if (!intent.hasExtra("clicked_item")){
             finish();
             return;
         }
@@ -54,29 +49,9 @@ public class ItemEditActivity extends AppCompatActivity {
         creationTime = findViewById(R.id.CreationDate);
         modifiedTime = findViewById(R.id.modifiedDate);
         updateModifiedTime();
-        oldDescription = item.getDescription();
-
         description.setText(item.getDescription());
         updateCreationTime();
-//        modifiedTime.setText(item.getFinishedTime().toString());
-//        if (item.getFinishedTime() != null){
-//            modifiedTime.setText(item.getFinishedTime().toString());
-//        }
-//        else
-//        {
-//            String modified = "not finish yet";
-//            modifiedTime.setText(modified);
-//        }
-        String statusProgress = "";
-        if (item.isDone())
-        {
-            myCheckBox.setChecked(true);
-            statusProgress = "Done";
-        }
-        else {
-            myCheckBox.setChecked(false);
-            statusProgress = "In progress";
-        }
+        myCheckBox.setChecked(item.isDone());
 
         description.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,13 +70,7 @@ public class ItemEditActivity extends AppCompatActivity {
                     holder.setItemDescription(item, description.getText().toString());
                     Date currentDate = new Date();
                     holder.setItemModifiedTime(item, currentDate);
-                    //modifiedTime.setText(item.getFinishedTime().toString());
                     updateModifiedTime();
-                    // update time todo
-                    // update time in the screen
-                }
-                else {
-                  //  Toast.makeText(ItemEditActivity.class, "This is my Toast message!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -116,13 +85,12 @@ public class ItemEditActivity extends AppCompatActivity {
             Date currentDate = new Date();
             holder.setItemModifiedTime(item, currentDate);
             this.updateModifiedTime();
-            //modifiedTime.setText(item.getFinishedTime().toString());
         });
     }
 
     public void updateModifiedTime(){
         Date currentDate = new Date();
-        Date prevDate = item.getFinishedTime();
+        Date prevDate = item.getModifiedTime();
         long diff = currentDate.getTime() - prevDate.getTime();
         long minutes = (int)diff / (1000 * 60);
         long hours = (int)minutes / 60;
@@ -164,7 +132,6 @@ public class ItemEditActivity extends AppCompatActivity {
         outState.putString("last_edit_date", modifiedTime.toString());
         outState.putString("creation_date", creationTime.toString());
         outState.putBoolean("status", myCheckBox.isChecked());
-        outState.putString("old_description", oldDescription);
 
     }
 
@@ -175,14 +142,10 @@ public class ItemEditActivity extends AppCompatActivity {
         modifiedTime.setText(savedInstanceState.getString("last_edit_date"));
         creationTime.setText(savedInstanceState.getString("creation_date"));
         myCheckBox.setChecked(savedInstanceState.getBoolean("status"));
-        oldDescription = savedInstanceState.getString("old_description");
     }
 
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-//        if (description.getText().toString().equals("")){
-//            item.setDescription(oldDescription);
-//        }
     }
 }

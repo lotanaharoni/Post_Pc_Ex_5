@@ -1,7 +1,6 @@
 package exercise.android.reemh.todo_items;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;

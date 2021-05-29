@@ -31,5 +31,6 @@ public interface TodoItemsHolder extends Serializable {
   /** Update description of the @param item */
   void setItemDescription(TodoItem oldItem, String newDescription);
 
+  /** Update modified time of the @param item */
   public void setItemModifiedTime(TodoItem oldItem, Date newDate);
 }

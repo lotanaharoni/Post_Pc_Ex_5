@@ -1,27 +1,23 @@
 package exercise.android.reemh.todo_items;
 
-import android.provider.Telephony;
-
 import com.google.gson.Gson;
-
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.Date;
 import java.util.UUID;
 
 public class TodoItem implements Serializable, Comparable<TodoItem>{
     private final String id;
     private boolean isDone;
-    private Date creationTime;
+    private final Date creationTime;
     private String description;
-    private Date finishedTime;
+    private Date modifiedTime;
 
     public TodoItem(String description){
         this.id = UUID.randomUUID().toString();
         this.isDone = false;
         this.creationTime = new Date();
         this.description = description;
-        this.finishedTime = new Date();
+        this.modifiedTime = new Date();
 
         try {
             Thread.sleep(2);
@@ -32,7 +28,7 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
     }
 
     public void setFinishedTime(Date newFinishedTimeDate){
-        this.finishedTime = newFinishedTimeDate;
+        this.modifiedTime = newFinishedTimeDate;
     }
 
     @Override
@@ -62,27 +58,23 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
     }
 
     public void setCurrentStatus(boolean done) {
-        this.finishedTime = new Date();
+        this.modifiedTime = new Date();
         isDone = done;
-    }
-
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public Date getFinishedTime() {
-        return finishedTime;
+    public Date getModifiedTime() {
+        return modifiedTime;
     }
 
     @Override
     public int compareTo(TodoItem o) {
         if (o != null){
             if (this.isDone && o.isDone){
-                return this.finishedTime.compareTo(o.finishedTime);
+                return this.modifiedTime.compareTo(o.modifiedTime);
             }
             else if (this.isDone && !o.isDone){
                 return 1;
@@ -104,7 +96,7 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
         }
         TodoItem otherTodoItem = (TodoItem)obj;
         return this.isDone == otherTodoItem.isDone && this.creationTime == otherTodoItem.creationTime &&
-                this.description.equals(otherTodoItem.description) && this.finishedTime == this.finishedTime;
+                this.description.equals(otherTodoItem.description) && this.modifiedTime == this.modifiedTime;
     }
 
     public static TodoItem parseKey(String keySerialize){

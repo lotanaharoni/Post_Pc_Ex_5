@@ -1,7 +1,6 @@
 package exercise.android.reemh.todo_items;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
     public MyAdapter(TodoItemsHolder newHolder, Context newContext){
         super();
         this.context = newContext;
-
         this.myHolder = newHolder;
     }
 
