@@ -3,6 +3,7 @@ package exercise.android.reemh.todo_items;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -47,10 +48,8 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     TodoItem newItem = new TodoItem(description);
     this.allTodoItems.add(0, newItem);
 
-    SharedPreferences.Editor editor = sp.edit();
-    editor.putString(newItem.getId(), newItem.getSerialize());
-    editor.apply();
-    todoItemMutableLiveData.setValue(this.getCurrentItems());
+    setSharedPreferences(newItem);
+    setLiveData();
   }
 
   @Override
@@ -62,10 +61,8 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     }
     Collections.sort(this.allTodoItems);
 
-    SharedPreferences.Editor editor = sp.edit();
-    editor.putString(item.getId(), item.getSerialize());
-    editor.apply();
-    todoItemMutableLiveData.setValue(this.getCurrentItems());
+    setSharedPreferences(item);
+    setLiveData();
   }
 
   @Override
@@ -77,10 +74,8 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     }
     Collections.sort(this.allTodoItems);
 
-    SharedPreferences.Editor editor = sp.edit();
-    editor.putString(item.getId(), item.getSerialize());
-    editor.apply();
-    todoItemMutableLiveData.setValue(this.getCurrentItems());
+    setSharedPreferences(item);
+    setLiveData();
   }
 
   @Override
@@ -91,7 +86,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
       SharedPreferences.Editor editor = sp.edit();
       editor.remove(item.getId());
       editor.apply();
-      todoItemMutableLiveData.setValue(this.getCurrentItems());
+      setLiveData();
     }
   }
 
@@ -104,13 +99,31 @@ public class TodoItemsHolderImpl implements TodoItemsHolder {
     }
     Collections.sort(this.allTodoItems);
 
-    SharedPreferences.Editor editor = sp.edit();
-    editor.putString(oldItem.getId(), oldItem.getSerialize());
-    editor.apply();
-    todoItemMutableLiveData.setValue(this.getCurrentItems());
+    setSharedPreferences(oldItem);
+    setLiveData();
   }
 
   public void loadInstanceState(List<TodoItem> newList){
     this.allTodoItems = new ArrayList<>(newList);
+  }
+
+  private void setSharedPreferences(TodoItem item){
+    SharedPreferences.Editor editor = sp.edit();
+    editor.putString(item.getId(), item.getSerialize());
+    editor.apply();
+  }
+
+  private void setLiveData(){
+    todoItemMutableLiveData.setValue(this.getCurrentItems());
+  }
+
+  @Nullable
+  public TodoItem getItem(String itemId){
+    for (TodoItem item: allTodoItems){
+      if (item.getId().equals(itemId)){
+        return item;
+      }
+    }
+    return null;
   }
 }

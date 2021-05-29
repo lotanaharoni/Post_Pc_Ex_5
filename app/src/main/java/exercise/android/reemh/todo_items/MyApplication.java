@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 import java.util.List;
 
-public class    MyApplication extends Application {
+public class MyApplication extends Application {
 
     private static MyApplication instance = null;
     TodoItemsHolderImpl itemsStorage;

@@ -29,19 +29,21 @@ public class ItemEditActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+
         if (holder == null){
             holder = MyApplication.getInstance().getItemsStorage();
         }
         Intent intent = getIntent();
-        if (!intent.hasExtra("edit_item")){ //todo
+        if (!intent.hasExtra("clicked_item")){ //todo
             finish();
             return;
         }
-        item = (TodoItem) intent.getSerializableExtra("clicked_item"); //todo? (maybe holder.getItem)
+        item = holder.getItem(intent.getStringExtra("clicked_item"));
         if (item == null){
             finish();
             return;
         }
+
         description = findViewById(R.id.description);
         myCheckBox = findViewById(R.id.checkBox2);
         creationTime = findViewById(R.id.CreationDate);
@@ -49,7 +51,6 @@ public class ItemEditActivity extends AppCompatActivity {
         oldDescription = item.getDescription();
 
         description.setText(item.getDescription());
-//        myCheckBox.setChecked(item.isDone());
         creationTime.setText(item.getCreationTime().toString());
         if (item.getFinishedTime() != null){
             modifiedTime.setText(item.getFinishedTime().toString());
@@ -86,6 +87,7 @@ public class ItemEditActivity extends AppCompatActivity {
                 if (!description.getText().toString().equals("")){
                     holder.setItemDescription(item, description.getText().toString());
                     // update time todo
+                    // update time in the screen
                 }
                 else {
                   //  Toast.makeText(ItemEditActivity.class, "This is my Toast message!", Toast.LENGTH_LONG).show();
@@ -102,41 +104,34 @@ public class ItemEditActivity extends AppCompatActivity {
             }
             // change the date todo
         });
-
-
-
-
-
-
-
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("description_before_edit", description.getText().toString());
-        outState.putString("last_edit_date", modifiedTime.toString());
-        outState.putString("creation_date", creationTime.toString());
-        outState.putBoolean("status", myCheckBox.isChecked());
-        outState.putString("old_description", oldDescription);
+//        outState.putString("description_before_edit", description.getText().toString());
+//        outState.putString("last_edit_date", modifiedTime.toString());
+//        outState.putString("creation_date", creationTime.toString());
+//        outState.putBoolean("status", myCheckBox.isChecked());
+//        outState.putString("old_description", oldDescription);
 
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        description.setText(savedInstanceState.getString("description_before_edit"));
-        modifiedTime.setText(savedInstanceState.getString("last_edit_date"));
-        creationTime.setText(savedInstanceState.getString("creation_date"));
-        myCheckBox.setChecked(savedInstanceState.getBoolean("status"));
-        oldDescription = savedInstanceState.getString("old_description");
+//        description.setText(savedInstanceState.getString("description_before_edit"));
+//        modifiedTime.setText(savedInstanceState.getString("last_edit_date"));
+//        creationTime.setText(savedInstanceState.getString("creation_date"));
+//        myCheckBox.setChecked(savedInstanceState.getBoolean("status"));
+//        oldDescription = savedInstanceState.getString("old_description");
     }
 
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        if (description.getText().toString().equals("")){
-            item.setDescription(oldDescription);
-        }
+//        if (description.getText().toString().equals("")){
+//            item.setDescription(oldDescription);
+//        }
     }
 }

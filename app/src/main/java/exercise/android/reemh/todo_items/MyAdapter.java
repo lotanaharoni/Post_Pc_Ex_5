@@ -10,27 +10,42 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
     TodoItemsHolder myHolder;
-    LayoutInflater inflater;
+    OnTaskClickListener onDeleteTask;
+    OnTaskClickListener onChangeDescription;
     Context context;
+    private final ArrayList<TodoItem> items = new ArrayList<>();
 
     public MyAdapter(TodoItemsHolder newHolder, Context newContext){
-        this.myHolder = newHolder;
+        super();
         this.context = newContext;
-        this.inflater = LayoutInflater.from(newContext);
+
+        this.myHolder = newHolder;
+    }
+
+    public void setData(List<TodoItem> newItems){
+        items.clear();
+        items.addAll(newItems);
+        Collections.sort(this.items);
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View newView = inflater.inflate(R.layout.row_todo_item, parent, false);
+        View newView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_todo_item, parent, false);
         return new MyViewHolder(newView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        TodoItem item = myHolder.getCurrentItems().get(position);
+        TodoItem item = items.get(position);
+
         holder.myCheckBox.setChecked(item.isDone());
         holder.myTextView.setText(item.getDescription());
         if (item.isDone()){
@@ -46,9 +61,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
         });
 
         holder.myUpdateButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this.context, ItemEditActivity.class);
-            intent.putExtra("clicked_item", item);
-            this.context.startActivity(intent);
+            System.out.println("Hiiiiiiii");
+            if (this.onChangeDescription != null){
+                onChangeDescription.onClick(item);
+            }
+//            Intent intent = new Intent(this.context, ItemEditActivity.class);
+//            intent.putExtra("clicked_item", item);
+//            this.context.startActivity(intent);
         });
 
         holder.myCheckBox.setOnClickListener(v -> {
@@ -66,4 +85,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
     public int getItemCount() {
         return this.myHolder.getCurrentItems().size();
     }
+
+    public Context getContext(){
+        return this.context;
+    }
+
+    public void deleteTodoItem(int position){
+        TodoItem item = items.get(position);
+        if (this.onDeleteTask != null){
+            onDeleteTask.onClick(item);
+        }
+    }
 }
+

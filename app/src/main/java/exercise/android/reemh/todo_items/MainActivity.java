@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -12,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-  public TodoItemsHolder holder = null;
+  public TodoItemsHolderImpl holder = null;
   EditText editText;
   FloatingActionButton buttonCreateTodoItem;
   RecyclerView recyclerView;
@@ -23,20 +24,25 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
     if (holder == null) {
-      holder = new TodoItemsHolderImpl(this);
+      holder = MyApplication.getInstance().getItemsStorage();
     }
+    adapter = new MyAdapter(this.holder, this);
 
-    application = new MyApplication();
+    holder.todoItemsLiveData.observe(this, todoItems -> adapter.setData(holder.getCurrentItems()));
+
+   // application = new MyApplication();
     editText = findViewById(R.id.editTextInsertTask);
     buttonCreateTodoItem = findViewById(R.id.buttonCreateTodoItem);
     recyclerView = findViewById(R.id.recyclerTodoItemsList);
     recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-    adapter = new MyAdapter(this.holder, this);
     recyclerView.setAdapter(adapter);
 
     editText.setText("");
+
+//    Intent intent2 = new Intent(this, ItemEditActivity.class);
+//    intent2.putExtra("edit_item", "try");
+//    startActivity(intent2);
 
     buttonCreateTodoItem.setOnClickListener(v -> {
       if (!editText.getText().toString().equals("")){
@@ -45,6 +51,20 @@ public class MainActivity extends AppCompatActivity {
         this.adapter.notifyDataSetChanged();
       }
     });
+
+    adapter.onDeleteTask = item -> {
+      holder.deleteItem(item);
+    };
+
+    adapter.onChangeDescription = item -> {
+      Intent intent = new Intent(this, ItemEditActivity.class);
+      intent.putExtra("clicked_item", item.getId());
+      startActivity(intent);
+    };
+
+//    adapter.onChangeDescription = item -> {
+//
+//    };
 
   }
 
@@ -70,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable("TodoItemsHolder", holder);
-    outState.putString("text", editText.getText().toString());
+//    outState.putSerializable("TodoItemsHolder", holder);
+//    outState.putString("text", editText.getText().toString());
   }
 
   @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
-    this.holder.loadInstanceState(((TodoItemsHolder)savedInstanceState.getSerializable("TodoItemsHolder")).getCurrentItems());
-    editText.setText(savedInstanceState.getString("text"));
+//    this.holder.loadInstanceState(((TodoItemsHolder)savedInstanceState.getSerializable("TodoItemsHolder")).getCurrentItems());
+//    editText.setText(savedInstanceState.getString("text"));
   }
 }

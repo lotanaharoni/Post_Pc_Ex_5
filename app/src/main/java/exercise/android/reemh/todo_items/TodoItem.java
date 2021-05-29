@@ -22,6 +22,13 @@ public class TodoItem implements Serializable, Comparable<TodoItem>{
         this.creationTime = new Date();
         this.description = description;
         this.finishedTime = null;
+
+        try {
+            Thread.sleep(8);
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
 //    public TodoItem(){
